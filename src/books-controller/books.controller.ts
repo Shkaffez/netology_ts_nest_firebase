@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Delete, Body, Param } from '@nestjs/common';
-import { BooksService } from '../books-service/books.service'
+import { BooksService } from '../books-service/books.service';
 import { Book } from '../book.interface';
 
 @Controller('books')
 export class BooksController {
-  constructor(private bookService: BooksService) { }
+  constructor(private bookService: BooksService) {}
 
   @Get()
   findAll(): Book[] {
@@ -25,5 +25,4 @@ export class BooksController {
   delete(@Param() id: string): void {
     this.bookService.delete(id);
   }
-
 }

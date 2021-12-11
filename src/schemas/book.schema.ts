@@ -25,4 +25,3 @@ export class Book {
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
-

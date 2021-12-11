@@ -14,10 +14,13 @@ export class BooksService {
   }
 
   findOne(id: string): Book {
-    return this.books.find(el => el.id === id);
+    return this.books.find((el) => el.id === id);
   }
 
   delete(id: string): void {
-    this.books.splice(this.books.findIndex(el => el.id === id), 1);
+    this.books.splice(
+      this.books.findIndex((el) => el.id === id),
+      1,
+    );
   }
 }

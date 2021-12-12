@@ -5,23 +5,23 @@ export type BookDocument = Book & Document;
 
 @Schema()
 export class Book {
-  @Prop({ required: true })
-  title: string;
+  @Prop({ default: '' })
+  public title: string;
 
   @Prop({ default: '' })
-  description: string;
+  public description: string;
 
   @Prop({ default: '' })
-  authors: string;
+  public authors: string;
 
   @Prop({ default: '' })
-  favorite: string;
+  public favorite: string;
 
   @Prop({ default: '' })
-  fileCover: string;
+  public fileCover: string;
 
   @Prop({ default: '' })
-  fileName: string;
+  public fileName: string;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

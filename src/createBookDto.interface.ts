@@ -1,5 +1,4 @@
 export interface createBookDto {
-  id: string;
   title: string;
   description: string;
   authors: string;

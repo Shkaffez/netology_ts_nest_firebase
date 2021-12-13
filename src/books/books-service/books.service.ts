@@ -3,10 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Book, BookDocument } from '../schemas/book.schema';
 import { createBookDto } from '../../createBookDto.interface';
+import { Connection } from 'mongoose';
+import { InjectConnection } from '@nestjs/mongoose';
 
 @Injectable()
 export class BooksService {
-  constructor(@InjectModel(Book.name) private BookModel: Model<BookDocument>) {}
+  constructor(
+    @InjectModel(Book.name) private readonly BookModel: Model<BookDocument>,
+    @InjectConnection() private connection: Connection,
+  ) {}
 
   public async findAll(): Promise<BookDocument[]> {
     try {
@@ -18,7 +23,7 @@ export class BooksService {
   }
 
   public async create(book: createBookDto): Promise<BookDocument> {
-    const newbook = new this.BookModel({ book });
+    const newbook = new this.BookModel(book);
     try {
       return await newbook.save();
     } catch (e) {
@@ -48,7 +53,7 @@ export class BooksService {
     book: createBookDto,
   ): Promise<void | BookDocument> {
     try {
-      return await this.BookModel.findByIdAndUpdate(id, { book });
+      return await this.BookModel.findByIdAndUpdate({ _id: id }, book);
     } catch (e) {
       console.error(e);
     }

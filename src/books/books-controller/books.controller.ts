@@ -6,10 +6,12 @@ import {
   Delete,
   Body,
   Param,
+  UsePipes,
 } from '@nestjs/common';
 import { BooksService } from '../books-service/books.service';
 import { BookDocument } from '../schemas/book.schema';
-import { createBookDto } from '../../createBookDto.interface';
+import { createBookDto } from '../../createBook.dto';
+import { MyValidationPipe } from 'src/validation.pipe';
 
 @Controller('books')
 export class BooksController {
@@ -21,7 +23,7 @@ export class BooksController {
   }
 
   @Get(':id')
-  public findOne(@Param('id') id: string): Promise<void | BookDocument> {
+  public findOne(@Param('id', new MyValidationPipe()) id: string): Promise<void | BookDocument> {
     return this.bookService.findOne(id);
   }
 
@@ -34,14 +36,14 @@ export class BooksController {
   @Put(':id')
   public update(
     @Body() book: createBookDto,
-    @Param('id') id: string,
+    @Param('id', new MyValidationPipe()) id: string,
   ): Promise<void | BookDocument> {
     this.bookService.update(id, book);
     return;
   }
 
   @Delete(':id')
-  public delete(@Param('id') id: string): Promise<void | BookDocument> {
+  public delete(@Param('id', new MyValidationPipe()) id: string): Promise<void | BookDocument> {
     this.bookService.delete(id);
     return;
   }

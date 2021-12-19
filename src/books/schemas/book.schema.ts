@@ -14,8 +14,8 @@ export class Book {
   @Prop({ default: '' })
   public authors: string;
 
-  @Prop({ default: '' })
-  public favorite: string;
+  @Prop()
+  public favorite: boolean;
 
   @Prop({ default: '' })
   public fileCover: string;

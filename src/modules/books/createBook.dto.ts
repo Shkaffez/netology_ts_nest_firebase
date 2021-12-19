@@ -1,4 +1,4 @@
-import { IsBoolean, IsString, MaxLength } from 'class-validator';
+import { IsBoolean, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class createBookDto {
   @IsString()
@@ -10,14 +10,18 @@ export class createBookDto {
   public readonly description: string;
 
   @IsString()
+  @IsOptional()
   public readonly authors: string;
 
   @IsBoolean()
+  @IsOptional()
   public readonly favorite: boolean;
 
   @IsString()
+  @IsOptional()
   public readonly fileCover: string;
 
   @IsString()
+  @IsOptional()
   public readonly fileName: string;
 }

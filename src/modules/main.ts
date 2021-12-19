@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { StatusInterseptor } from './status.interseptor';
+import { StatusInterseptor } from '../common/interseptors/status.interseptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

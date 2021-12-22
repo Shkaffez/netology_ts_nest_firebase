@@ -7,8 +7,7 @@ import { BooksModule } from './books/books.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://shishkov-i:qwaszx@cluster0.x7d8w.mongodb.net/',
-      { dbName: 'myFirstDatabase' },
+      'mongodb+srv://shishkov-i:test@cluster0.x7d8w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     ),
     BooksModule,
   ],

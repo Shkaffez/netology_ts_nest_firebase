@@ -14,11 +14,13 @@ export class StatusInterseptor implements NestInterceptor {
       map((data) => ({
         status: 'success',
         data: data,
-      })),  
-      catchError(err => of({
-        status: 'fail',
-        data: err
-      }))    
+      })),
+      catchError((err) =>
+        of({
+          status: 'fail',
+          data: err,
+        }),
+      ),
     );
   }
 }

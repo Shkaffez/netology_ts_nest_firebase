@@ -10,7 +10,9 @@ import { validate } from 'class-validator';
 @Injectable()
 export class BookValidationPipe implements PipeTransform {
   async transform(value: any, { metatype }: ArgumentMetadata) {
-    if (!metatype || !this.toValidate(metatype)) return value;
+    if (!metatype || !this.toValidate(metatype)) {
+      return value;
+    } 
 
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
@@ -20,7 +22,7 @@ export class BookValidationPipe implements PipeTransform {
     return value;
   }
   private toValidate(metatype): boolean {
-    const types = [String, Boolean, Number, Array, Object];
+    const types : Function [] = [String, Boolean, Number, Array, Object];
     return !types.includes(metatype);
   }
 }

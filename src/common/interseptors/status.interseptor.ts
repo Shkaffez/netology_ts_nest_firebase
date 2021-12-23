@@ -4,8 +4,8 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class StatusInterseptor implements NestInterceptor {
@@ -14,7 +14,11 @@ export class StatusInterseptor implements NestInterceptor {
       map((data) => ({
         status: 'success',
         data: data,
-      })),
+      })),  
+      catchError(err => of({
+        status: 'fail',
+        data: err
+      }))    
     );
   }
 }

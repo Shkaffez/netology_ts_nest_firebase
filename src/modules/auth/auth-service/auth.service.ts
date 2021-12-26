@@ -7,17 +7,20 @@ import { Connection } from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
 import { authUserDto } from '../dto/authUser.dto';
 import * as bcript from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(Auth.name) private readonly AuthModel: Model<AuthDocument>,
     @InjectConnection() private connection: Connection,
+    private jwtService: JwtService,
   ) {}
 
-  public async sugnup(
+  public async signup(
     createUserData: createUserDto,
   ): Promise<void | AuthDocument> {
+    console.log(createUserData);
     const { email, password, firstName, lastName } = createUserData;
     const hash = bcript.hashSync(password, 10);
     const newUser = new this.AuthModel({
@@ -41,13 +44,22 @@ export class AuthService {
         '-__v',
       );
       if (user && bcript.compareSync(password, user.password)) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...result } = user;
         return user;
       }
       return null;
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async login(user: any) {
+    const payload = {
+      id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+    };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

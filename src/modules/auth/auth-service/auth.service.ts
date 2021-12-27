@@ -20,7 +20,6 @@ export class AuthService {
   public async signup(
     createUserData: createUserDto,
   ): Promise<void | AuthDocument> {
-    console.log(createUserData);
     const { email, password, firstName, lastName } = createUserData;
     const hash = bcript.hashSync(password, 10);
     const newUser = new this.AuthModel({
@@ -36,7 +35,7 @@ export class AuthService {
     }
   }
 
-  public async validateUser(authUserData: authUserDto): Promise<any> {
+  public async validateUserforLocal(authUserData: authUserDto): Promise<any> {
     const { email, password } = authUserData;
 
     try {
@@ -44,7 +43,9 @@ export class AuthService {
         '-__v',
       );
       if (user && bcript.compareSync(password, user.password)) {
-        return user;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...result } = user;
+        return result;
       }
       return null;
     } catch (e) {
@@ -52,7 +53,23 @@ export class AuthService {
     }
   }
 
-  async login(user: any) {
+  public async validateUserForJWT(email) {
+    try {
+      const user = await this.AuthModel.findOne({ email: email }).select(
+        '-__v',
+      );
+      if (user) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...result } = user;
+        return result;
+      }
+      return null;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public async login(user: any) {
     const payload = {
       id: user._id,
       email: user.email,

@@ -7,11 +7,13 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { Auth, AuthSchema } from './schemas/auth.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
     PassportModule,
+    ConfigModule.forRoot(),
     JwtModule.register({
       secret: process.env.JWTSecret,
     }),

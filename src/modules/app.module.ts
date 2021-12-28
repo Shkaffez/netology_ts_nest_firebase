@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MongoConnect),
     BooksModule,
     AuthModule,

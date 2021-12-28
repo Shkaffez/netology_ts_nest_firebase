@@ -35,13 +35,24 @@ export class AuthService {
     }
   }
 
+  public async login(user: any) {
+    console.log(user);
+    const payload = {
+      id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+    };
+    console.log(payload);
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+
   public async validateUserforLocal(authUserData: authUserDto): Promise<any> {
     const { email, password } = authUserData;
 
     try {
-      const user = await this.AuthModel.findOne({ email: email }).select(
-        '-__v',
-      );
+      const user = await (await this.AuthModel.findOne({ email })).toObject();
       if (user && bcript.compareSync(password, user.password)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...result } = user;
@@ -67,16 +78,5 @@ export class AuthService {
     } catch (e) {
       console.log(e);
     }
-  }
-
-  public async login(user: any) {
-    const payload = {
-      id: user._id,
-      email: user.email,
-      firstName: user.firstName,
-    };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
   }
 }

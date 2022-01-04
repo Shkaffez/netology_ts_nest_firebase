@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BooksController } from './books-controller/books.controller';
-import { BooksService } from './books-service/books.service';
+import { BooksController } from './books.controller';
+import { BooksService } from './books.service';
 import { Book, BookSchema } from './schemas/book.schema';
 
 @Module({

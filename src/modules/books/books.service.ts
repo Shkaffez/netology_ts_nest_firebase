@@ -1,19 +1,18 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Book, BookDocument } from '../schemas/book.schema';
-import { createBookDto } from '../dto/createBook.dto';
+import { Book, BookDocument } from './schemas/book.schema';
+import { createBookDto } from './dto/createBook.dto';
 import { Connection } from 'mongoose';
-import { InjectConnection } from '@nestjs/mongoose';
+// import { InjectConnection } from '@nestjs/mongoose';
 
 @Injectable()
 export class BooksService {
   constructor(
-    @InjectModel(Book.name) private readonly BookModel: Model<BookDocument>,
-    @InjectConnection() private connection: Connection,
+    @InjectModel(Book.name) private readonly BookModel: Model<BookDocument>, //   @InjectConnection() private connection: Connection,
   ) {}
 
-  public async findAll(): Promise<BookDocument[]> {
+  public async find(): Promise<BookDocument[]> {
     try {
       const books = await this.BookModel.find().select('-__v');
       return books;
@@ -31,7 +30,7 @@ export class BooksService {
     }
   }
 
-  public async findOne(id: string): Promise<void | BookDocument> {
+  public async findOne(id: string): Promise<BookDocument> {
     try {
       const book = await this.BookModel.findById(id).select('-__v');
       return book;

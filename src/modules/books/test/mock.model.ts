@@ -9,25 +9,23 @@ export abstract class MockModel<T> {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructorSpy(_createEntityData: T): void {}
 
-  findOne(): { exec: () => T } {
-    return {
-      exec: (): T => this.entityStub,
-    };
+  findById(id) {
+    return this.entityStub;
   }
 
   async find(): Promise<T[]> {
     return [this.entityStub];
   }
 
-  async save(): Promise<T> {
+  async save(id, data): Promise<T> {
     return this.entityStub;
   }
 
-  async findByIdAndUpdate(): Promise<T> {
+  async findByIdAndUpdate(id): Promise<T> {
     return this.entityStub;
   }
 
-  async findOneAndRemove(): Promise<T> {
+  async findOneAndRemove({ _id }): Promise<T> {
     return this.entityStub;
   }
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Book, BookDocument } from './schemas/book.schema';
 import { createBookDto } from './dto/createBook.dto';
-import { Connection } from 'mongoose';
+// import { Connection } from 'mongoose';
 // import { InjectConnection } from '@nestjs/mongoose';
 
 @Injectable()
@@ -12,9 +12,9 @@ export class BooksService {
     @InjectModel(Book.name) private readonly BookModel: Model<BookDocument>, //   @InjectConnection() private connection: Connection,
   ) {}
 
-  public async find(): Promise<BookDocument[]> {
+  public async findAll(): Promise<BookDocument[]> {
     try {
-      const books = await this.BookModel.find().select('-__v');
+      const books = await this.BookModel.find();
       return books;
     } catch (e) {
       console.log(e);
@@ -32,14 +32,14 @@ export class BooksService {
 
   public async findOne(id: string): Promise<BookDocument> {
     try {
-      const book = await this.BookModel.findById(id).select('-__v');
+      const book = await this.BookModel.findById(id);
       return book;
     } catch (e) {
       console.error(e);
     }
   }
 
-  public async delete(id: string): Promise<void | BookDocument> {
+  public async delete(id: string): Promise<BookDocument> {
     try {
       return await this.BookModel.findOneAndRemove({ _id: id });
     } catch (e) {

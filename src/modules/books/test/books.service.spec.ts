@@ -32,7 +32,7 @@ describe('BooksService', () => {
 
       beforeEach(async () => {
         jest.spyOn(bookModel, 'find');
-        books = await booksService.find();
+        books = await booksService.findAll();
       });
 
       test('then it should call the bookModel', () => {
@@ -41,6 +41,46 @@ describe('BooksService', () => {
 
       test('then it should return a book', () => {
         expect(books).toEqual([bookStub()]);
+      });
+    });
+  });
+
+  describe('findOne', () => {
+    describe('when findOne is called', () => {
+      let book: Book;
+
+      beforeEach(async () => {
+        jest.spyOn(bookModel, 'findById');
+        book = await booksService.findOne(bookStub().id);
+      });
+
+      test('then it should call the bookModel', () => {
+        expect(bookModel.findById).toHaveBeenCalledWith(bookStub().id);
+      });
+
+      test('then it should return a book', () => {
+        expect(book).toEqual(bookStub());
+      });
+    });
+  });
+
+  describe('delete', () => {
+    describe('when delete is called', () => {
+      let book: Book;
+
+      beforeEach(async () => {
+        jest.spyOn(bookModel, 'findOneAndRemove');
+        book = await booksService.delete(bookStub().id);
+      });
+
+      test('then it should call the bookModel', () => {
+        expect(bookModel.findOneAndRemove).toHaveBeenCalledWith({
+          _id: bookStub().id,
+        });
+      });
+
+      test('then it should return a book', () => {
+        expect(book).toEqual(bookStub());
       });
     });
   });

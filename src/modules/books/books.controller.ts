@@ -9,9 +9,9 @@ import {
   UsePipes,
   UseGuards,
 } from '@nestjs/common';
-import { BooksService } from '../books-service/books.service';
-import { BookDocument } from '../schemas/book.schema';
-import { createBookDto } from '../dto/createBook.dto';
+import { BooksService } from './books.service';
+import { BookDocument } from './schemas/book.schema';
+import { createBookDto } from './dto/createBook.dto';
 import { IdValidationPipe } from 'src/common/pipes/id.pipe';
 import { BookValidationPipe } from 'src/common/pipes/createBook.pipe';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guard';

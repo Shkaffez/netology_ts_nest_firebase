@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Auth, AuthDocument } from '../schemas/auth.schema';
-import { createUserDto } from '../dto/createUser.dto';
+import { Auth, AuthDocument } from './schemas/auth.schema';
+import { createUserDto } from './dto/createUser.dto';
 import { Connection } from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
-import { authUserDto } from '../dto/authUser.dto';
+import { authUserDto } from './dto/authUser.dto';
 import * as bcript from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 

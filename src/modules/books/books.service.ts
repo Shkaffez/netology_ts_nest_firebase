@@ -5,6 +5,9 @@ import { Book, BookDocument } from './schemas/book.schema';
 import { createBookDto } from './dto/createBook.dto';
 import { Connection } from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
+import * as admin from 'firebase-admin';
+
+const db = admin.database();
 
 @Injectable()
 export class BooksService {
@@ -15,7 +18,7 @@ export class BooksService {
 
   public async findAll(): Promise<BookDocument[]> {
     try {
-      const books = await this.BookModel.find().select('-__v');
+      const books = (await db.ref('books').once('value')).val();
       return books;
     } catch (e) {
       console.log(e);
@@ -23,9 +26,9 @@ export class BooksService {
   }
 
   public async create(book: createBookDto): Promise<BookDocument> {
-    const newbook = new this.BookModel(book);
     try {
-      return await newbook.save();
+      await db.ref('books').push(book);
+      return;
     } catch (e) {
       console.error(e);
     }
@@ -33,8 +36,8 @@ export class BooksService {
 
   public async findOne(id: string): Promise<void | BookDocument> {
     try {
-      const book = await this.BookModel.findById(id).select('-__v');
-      return book;
+      const book = await db.ref('books').child(id).once('value');
+      return book as unknown as BookDocument;
     } catch (e) {
       console.error(e);
     }
